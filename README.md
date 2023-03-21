@@ -21,3 +21,7 @@
     </a>
  </div>
 </div>
+# Start
+1. npm install
+2. run migrations: npx sequelize-cli db:migrate
+3. run server: npm run dev
