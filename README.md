@@ -22,6 +22,8 @@
  </div>
 </div>
 # Start
-1. npm install
-2. run migrations: npx sequelize-cli db:migrate
-3. run server: npm run dev
+1. Install Project: npm install
+2. Create Database: npx sequelize-cli db:create
+3. Run Migrations: npx sequelize-cli db:migrate
+4. Run Server: npm run dev
+5. (Optional) Drop Database: npx sequelize-cli db:drop

@@ -7,12 +7,12 @@ const router = express.Router();
 /**
  * Insert cutom routes
  */
-const testRoutes = require('./testRoutes');
+const salonesRoutes = require('./salonesRoutes');
 
 
 /**
  * Set custom routers
  */
-router.use("/test", testRoutes);
+router.use("/", salonesRoutes);
 
 module.exports = router;

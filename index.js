@@ -2,7 +2,7 @@
  * Default config not change
  */
 const express = require("express");
-
+require('./database');
 const routes = require("./routes");
 const bodyParser = require('body-parser');
 const app = express();
