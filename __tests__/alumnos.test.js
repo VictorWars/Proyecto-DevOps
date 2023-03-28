@@ -4,24 +4,24 @@ const axios = require('axios');
 jest.mock('axios');
 
 describe("Testing endpoints", () => {
-    test("GET /profesores", async () => {
+    test("GET /alumnos", async () => {
         const fake = [
             {
               "id": 1,
-              "nombres": "Emmanuel Isai",
-              "apellidoPaterno": "Chable",
-              "apellidoMaterno": "Colli",
-              "numeroEmpleado": 1,
-              "horasClase": 10,
+              "nombres": "Victor Enrique",
+              "apellidoPaterno": "Cauich",
+              "apellidoMaterno": "Davalos",
+              "matricula": 15002051,
+              "promedio": 7.2,
               "createdAt": Date(),
               "updatedAt": Date()
             },  {
                 "id": 2,
-                "nombres": "Juan",
-                "apellidoPaterno": "Ramón",
-                "apellidoMaterno": "Gonzales",
-                "numeroEmpleado": 2,
-                "horasClase": 5,
+                "nombres": "Javier Ramón",
+                "apellidoPaterno": "Torres",
+                "apellidoMaterno": "Peniche",
+                "matricula": 15004844,
+                "promedio": 7.2,
                 "createdAt": Date(),
                 "updatedAt": Date()
               }];
@@ -30,7 +30,7 @@ describe("Testing endpoints", () => {
         axios.get.mockResolvedValue(fake);
 
         // Get result
-        const result =  await axios.get('http://localhost:3000/api/v1/profesores');
+        const result =  await axios.get('http://localhost:3000/api/v1/alumnos');
         
         // Test called get
         const axiosSpy = jest.spyOn(axios, 'get');
