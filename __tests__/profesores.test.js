@@ -140,4 +140,33 @@ describe('Testing endpoints', () => {
     expect(axiosSpy).toHaveBeenCalledTimes(1);
     expect(result).toEqual(fake);
   });
+
+  test('DELETE /profesores/:id', async () => {
+    const fake = {
+      id: 1,
+      nombres: 'Emmanuel Isai',
+      apellidoPaterno: 'Chable',
+      apellidoMatenerno: 'Colli',
+      numeroEmpleado: 1,
+      horasClase: 10,
+      createdAt: Date(),
+      updatedAt: Date(),
+    };
+
+    axios.delete.mockResolvedValue(fake);
+
+    // Get result
+    const result = await axios.delete(
+      'http://localhost:3000/api/v1/profesores/1',
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    const axiosSpy = jest.spyOn(axios, 'delete');
+
+    expect(axiosSpy).toHaveBeenCalledTimes(1);
+    expect(result).toEqual(fake);
+  });
 });

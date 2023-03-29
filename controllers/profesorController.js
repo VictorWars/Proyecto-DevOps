@@ -34,9 +34,19 @@ const getById = async (req, res) => {
   return res.status(200).json(profesor);
 };
 
+const destroy = async (req, res) => {
+  const { id } = req.params;
+  let profesor = await Profesor.findByPk(id);
+  if (!profesor) return res.status(404).json({ message: 'Not Found Model' });
+
+  profesor = await profesor.destroy();
+  return res.status(200).json(profesor);
+};
+
 module.exports = {
   getAll,
   update,
   create,
   getById,
+  destroy,
 };
