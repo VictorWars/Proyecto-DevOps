@@ -9,6 +9,7 @@ const router = express.Router();
  */
 const salonesRoutes = require('./salonesRoutes');
 const profesorRoutes =require('./profesorRoutes');
+const alumnoRoutes =require('./alumnoRoutes');
 
 
 /**
@@ -17,5 +18,7 @@ const profesorRoutes =require('./profesorRoutes');
 router.use("/", salonesRoutes);
 
 router.use('/profesores', profesorRoutes);
+
+router.use('/alumnos', alumnoRoutes);
 
 module.exports = router;
