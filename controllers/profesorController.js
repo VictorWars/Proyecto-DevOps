@@ -25,8 +25,18 @@ const create = async (req, res) => {
   return res.status(201).json(profesor);
 };
 
+const getById = async (req, res) => {
+  const { id } = req.params;
+
+  const profesor = await Profesor.findByPk(id);
+  if (!profesor) return res.status(404).json({ message: 'Not Found Model' });
+
+  return res.status(200).json(profesor);
+};
+
 module.exports = {
   getAll,
   update,
   create,
+  getById,
 };
