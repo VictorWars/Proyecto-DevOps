@@ -12,8 +12,14 @@ module.exports = {
       nombre: {
         type: Sequelize.STRING
       },
-      seriada: {
-        type: Sequelize.BOOLEAN
+      descripcion: {
+        type: Sequelize.TEXT
+      },
+      creditos: {
+        type: Sequelize.INTEGER
+      },
+      tipo: {
+        type: Sequelize.STRING
       },
       codigo: {
         type: Sequelize.STRING

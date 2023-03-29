@@ -4,7 +4,7 @@
   "description": "<h1 align=\"center\">Proyecto DevOps</h2> <h2 align=\"center\">Este es el repositorio para la materia de \"DevOps E Integración Continua\".</h2>   <h2 align=\"center\">Integrantes:</h2> <div align=\"center\">  <div>     <img href=\"https://github.com/VictorWars\" width=\"200px\" src=\"https://avatars.githubusercontent.com/u/50329391?v=4\" align=\"center\" alt=\"VictorWars\" />     <a href=\"https://github.com/VictorWars\">       <p align=\"center\">Victor Cauich</p>     </a>  </div>  <div>     <img href=\"https://github.com/SonBear\" width=\"200px\" src=\"https://avatars.githubusercontent.com/u/48963587?v=4\" align=\"center\" alt=\"SonBear\" />     <a href=\"https://github.com/SonBear\">       <p align=\"center\">Emmanuel Chablé</p>     </a>  </div>  <div>     <img href=\"https://github.com/Isaac2500\" width=\"200px\" src=\"https://avatars.githubusercontent.com/u/44030250?v=4\" align=\"center\" alt=\"Isaac2500\" />     <a href=\"https://github.com/Isaac2500\">       <p align=\"center\">Isaac Canche</p>     </a>  </div> </div>",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon index.js",
+    "dev": "nodemon server.js",
     "test": "jest"
   },
   "repository": {
@@ -21,10 +21,13 @@
   "devDependencies": {
     "jest": "^29.5.0",
     "nodemon": "^2.0.21",
+    "sinon": "^15.0.3",
     "supertest": "^6.3.3"
   },
   "dependencies": {
     "axios": "^1.3.4",
+    "bcrypt": "^5.1.0",
+    "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "jsonwebtoken": "^9.0.0",

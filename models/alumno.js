@@ -24,19 +24,12 @@ class Alumno extends Model {
     );
   }
   static associate(models) {
-    this.hasMany(models.Salon, {
+    /* this.hasMany(models.Salon, {
       foreignKey: 'alumnoId',
       as: 'salones',
       onDelete: 'CASCADE',
       hooks: true,
-    });
-    this.hasMany(models.Asignatura, {
-      foreignKey: 'alumnoId',
-      as: 'asignaturas',
-      onDelete: 'CASCADE',
-      hooks: true,
-    });
-
+    }); */
   }
 }
 

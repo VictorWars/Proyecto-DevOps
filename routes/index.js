@@ -9,13 +9,17 @@ const router = express.Router();
  */
 const salonesRoutes = require('./salonesRoutes');
 const profesorRoutes =require('./profesorRoutes');
+const asignaturasRoutes = require('./asignaturasRoutes');
+const usuarioRoutes = require('./usuarioRoutes');
 
 
 /**
  * Set custom routers
  */
 router.use("/", salonesRoutes);
+router.use("/", asignaturasRoutes)
+router.use("/",usuarioRoutes);
 
-router.use('/profesores', profesorRoutes);
+router.use('/', profesorRoutes);
 
 module.exports = router;

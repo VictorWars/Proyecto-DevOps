@@ -5,24 +5,23 @@ const getAll = async (req, res) => {
     return res.status(200).json(salones);
 };
 
-const getById = async (req, res) => {
-  const salones = await Salon.findAll();
-  return res.status(200).json(salones);
-};
+const getById = async(req, res) => {
+  const { id } = req.params;
+  const SalonEncontrado = await Salon.findByPk(parseInt(id))
+  if (!SalonEncontrado) {
+    return res.status(404).json({ message: "Salon no existe" });
+  }
+
+  return res.status(200).json(SalonEncontrado);
+}
 
 const create= async (req, res) =>{
-    const { alumnoId, profesorId, asignaturaId, estado, capacidad } = req.body;
-    const {
-      user: { id },
-    } = req.user;
+    const { nombre, tipo, capacidad, estado, comodidades } = req.body;
 
-    const comment = await Comment.create({
-      userId: id,
-      movieId,
-      content,
-      title,
+    const salon = await Salon.create({
+      nombre, tipo, capacidad, estado, comodidades
     });
-    return res.status(201).json(comment);
+    return res.status(201).json(salon);
 };
 
 const destroy = async (req, res) => {
@@ -37,13 +36,13 @@ const destroy = async (req, res) => {
 
 const update = async(req, res) => {
     const { id } = req.params;
-    const { content } = req.body;
+    const { nombre, tipo, capacidad, estado, comodidades } = req.body;
     const salon = await Salon.findByPk(id);
     console.log(salon);
     if (!salon) {
       return res.status(404).json({ message: 'Salon was not found' });
     }
-    await Salon.update({ content }, { where: { id } });
+    await Salon.update({ nombre, tipo, capacidad, estado, comodidades }, { where: { id } });
     return res.json(200)
 };
 
@@ -52,5 +51,7 @@ const update = async(req, res) => {
 module.exports = {
     getAll,
     create,
-    destroy
+    destroy,
+    update,
+    getById
 };

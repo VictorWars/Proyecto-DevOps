@@ -24,7 +24,7 @@ class Profesor extends Model {
     );
   }
   static associate(models) {
-    this.hasMany(models.Salon, {
+    /* this.hasMany(models.Salon, {
       foreignKey: 'profesorId',
       as: 'salones',
       onDelete: 'CASCADE',
@@ -35,7 +35,7 @@ class Profesor extends Model {
       as: 'asignaturas',
       onDelete: 'CASCADE',
       hooks: true,
-    });
+    }); */
 
   }
 }
