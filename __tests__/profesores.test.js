@@ -79,7 +79,7 @@ describe('Testing endpoints', () => {
       'http://localhost:3000/api/v1/profesores',
       fake,
       {
-        Authorization: 'Bearer {{JWT}}',
+        Authorization: `Bearer ${token}`,
       }
     );
 
