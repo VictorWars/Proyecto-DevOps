@@ -7,6 +7,10 @@
     "dev": "nodemon index.js",
     "test": "jest"
   },
+  "jest": {
+    "verbose": true,
+    "clearMocks": true
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/VictorWars/Proyecto-DevOps.git"
