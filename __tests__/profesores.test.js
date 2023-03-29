@@ -61,9 +61,35 @@ describe('Testing endpoints', () => {
     expect(result).toEqual(fake);
   });
 
-  test('PUT /profesores', async () => {
-    jest.mock('axios');
+  test('POST /profesores', async () => {
+    const fake = {
+      id: 1,
+      nombres: 'Emmanuel Isai',
+      apellidoPaterno: 'Chable',
+      apellidoMatenerno: 'Colli',
+      numeroEmpleado: 1,
+      horasClase: 10,
+      createdAt: Date(),
+      updatedAt: Date(),
+    };
+    // Set result
+    axios.post.mockResolvedValue(fake);
 
+    // Get result
+    const result = await axios.post(
+      'http://localhost:3000/api/v1/profesores',
+      fake,
+      {
+        Authorization: `Bearer ${token}`,
+      }
+    );
+    const axiosSpy = jest.spyOn(axios, 'post');
+
+    expect(axiosSpy).toHaveBeenCalledTimes(1);
+    expect(result).toEqual(fake);
+  });
+
+  test('PUT /profesores', async () => {
     const fake = {
       id: 1,
       nombres: 'Emmanuel Isai',
@@ -89,10 +115,7 @@ describe('Testing endpoints', () => {
     );
     const axiosSpy = jest.spyOn(axios, 'put');
 
-    // Test called get
     expect(axiosSpy).toHaveBeenCalledTimes(1);
-
-    // Test result
     expect(result).toEqual(fake);
   });
 });

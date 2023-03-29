@@ -19,7 +19,14 @@ const update = async (req, res, next) => {
   return res.status(500).json({ message: 'Internal Server Error' });
 };
 
+const create = async (req, res) => {
+  const body = req.body;
+  const profesor = await Profesor.create(body);
+  return res.status(201).json(profesor);
+};
+
 module.exports = {
   getAll,
   update,
+  create,
 };
