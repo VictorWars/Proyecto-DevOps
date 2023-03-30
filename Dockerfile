@@ -16,6 +16,9 @@ ENV DB_USER=root
 ENV DB_PASSWORD=password
 ENV DB_PORT=3306
 
+ENV JWT_SECRET="SECRET_JWT"
+ENV EXPIRATION_TIME=100000000
+
 # If you are building your code for production
 RUN npm ci --omit=dev
 
