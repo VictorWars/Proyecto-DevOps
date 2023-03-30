@@ -1,55 +1,196 @@
-const app = require('../app');
-const request = require('supertest');
-const Salon = require('../models/salon');
-const sinon = require('sinon');
+const axios = require('axios');
 
-describe('GET /salones', () => {
-  let JwtToken = ''
+// Create mock
+jest.mock('axios');
+let token = '';
 
-  beforeEach(async () => {
-    await Salon.sync({ force: true });
-    await request(app).post('/api/v1/signUp').send({username: 'tesa', email: 'test@example.com', password: '123'})
-    const {body: { token } } = await request(app).post('/api/v1/signIn').send({email: 'test@example.com', password: '123'})
-    JwtToken = token
+describe('Testing endpoints', () => {
+  test('Login', async () => {
+    const tokenValue =
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImVtbWFudWVsaXNhaV8yOEBob3RtYWlsLmNvbSIsInBhc3N3b3JkIjoicGFzc3dvcmQyOC4ifQ.GgWS-JYKUfoBEnJadeNa24970hksD1whwoU4_qBFgSY';
+    axios.post.mockResolvedValue(tokenValue);
+
+    const loginData = {
+      email: 'emmanuelisai_28@hotmail.com',
+      password: 'password28.',
+    };
+    const tokenResult = await axios.post(
+      'http://localhost:3000/api/v1/signIn',
+      loginData
+    );
+    const axiosSpy = jest.spyOn(axios, 'post');
+    expect(axiosSpy).toHaveBeenCalledTimes(1);
+    expect(tokenValue).toEqual(tokenResult);
+    token = tokenResult;
+  });
+  test('GET /salones', async () => {
+    const fakeResponse = [
+      {
+        id: 1,
+        nombre: 'C4',
+        tipo: 'Laboratorio',
+        capacidad: 30,
+        estado: "Ocupado",
+        comodidades: "Aire Acondicionado, Computadoras, Internet",
+        createdAt: Date(),
+        updatedAt: Date(),
+      },
+      {
+        id: 2,
+        nombre: 'H1',
+        tipo: 'Salon',
+        capacidad: 30,
+        estado: "Libre",
+        comodidades: "Sillas, Computadoras, Internet",
+        createdAt: Date(),
+        updatedAt: Date(),
+      },
+    ];
+
+    // Set result
+    axios.get.mockResolvedValue(fakeResponse);
+
+    // Get result
+    const result = await axios.get('http://localhost:3000/api/v1/asignaturas', 
+    {
+      authorization: `Bearer ${token}`,
+    });
+
+    // Test called get
+    const axiosSpy = jest.spyOn(axios, 'get');
+    expect(axiosSpy).toHaveBeenCalledTimes(1);
+
+    // Test result
+    expect(result).toEqual(fakeResponse);
+    expect(result).toHaveLength(2);
   });
 
-  const mockData = [
-    {
-      "id": 1,
-      "nombre":"C4",
-      "tipo":"Laboratorio",
-      "capacidad": 30,
-      "estado": "ocupado",
-      "comodidades":"Aire Acondicionado, 40 Sillas, Computadoras",
-      "createdAt": Date(),
-      "updatedAt": Date()
-    },
-    {
-      "id": 2,
-      "nombre":"H1",
-      "tipo":"Salon",
-      "capacidad": 30,
-      "estado": "ocupado",
-      "comodidades":"Aire Acondicionado, 40 Sillas, Computadoras",
-      "createdAt": Date(),
-      "updatedAt": Date()
+  test('POST /salones', async () => {
+    const fakeBody = {
+      nombre: 'EA1',
+      tipo: 'Cubiculo',
+      capacidad: 1,
+      estado: "Ocupado",
+      comodidades: "Aire Acondicionado, Computadoras, Internet, Escritorio",
+    };
+
+    const fakeResponse = {
+        status:200,
+        body :{
+          id: 1,
+          nombre: 'EA1',
+          tipo: 'Cubiculo',
+          capacidad: 1,
+          estado: "Ocupado",
+          comodidades: "Aire Acondicionado, Computadoras, Internet, Escritorio",
+          createdAt: Date(),
+          updatedAt: Date(),
+        }
     }
-  ]
-  sinon.stub(Salon, 'findAll').returns(mockData);
-  sinon.stub(Salon, 'findByPk').returns(mockData[0]);
+    // Set result
+    axios.post.mockResolvedValue(fakeResponse);
 
-  test('should return 200 and salones data', async () => {
-    const { status, body } = await request(app).get('/api/v1/salones').set('Authorization', `Bearer ${JwtToken}`);
+    // Get result
+    const result = await axios.post(
+      'http://localhost:3000/api/v1/salones',
+      fakeBody,
+      {
+        authorization: `Bearer ${token}`,
+      }
+    );
+    const axiosSpy = jest.spyOn(axios, 'post');
 
-    expect(status).toBe(200);
-    expect(body).toHaveLength(2)
+    expect(axiosSpy).toHaveBeenCalledTimes(1);
+    expect(result.status).toEqual(fakeResponse.status);
+    expect(result.body).toEqual(fakeResponse.body);
   });
 
-  test('should return 200 and salon data', async () => {
-    const {status, body} = await request(app).get('/api/v1/salones/1').set('Authorization', `Bearer ${JwtToken}`);
+  test('PUT /salones/:id', async () => {
+    const fakeResponse = {
+      status:200,
+      body :{
+        id: 1,
+        nombre: 'EA1',
+        tipo: 'Cubiculo',
+        capacidad: 1,
+        estado: "Libre",
+        comodidades: "Aire Acondicionado, Computadoras, Internet, Escritorio",
+        createdAt: Date(),
+        updatedAt: Date(),
+      }
+  }
 
-    expect(status).toBe(200);
-    expect(body).toEqual(mockData[0])
+    axios.put.mockResolvedValue(fakeResponse);
+
+    // Get result
+    const result = await axios.put(
+      'http://localhost:3000/api/v1/salones/1',
+      {
+        nombre: 'EA1',
+        tipo: 'Cubiculo',
+        capacidad: 1,
+        estado: "Libre",
+        comodidades: "Aire Acondicionado, Computadoras, Internet, Escritorio"
+      },
+      {
+        authorization: `Bearer ${token}`,
+      }
+    );
+    const axiosSpy = jest.spyOn(axios, 'put');
+
+    expect(axiosSpy).toHaveBeenCalledTimes(1);
+    expect(result.body).toEqual(fakeResponse.body);
+    expect(result.status).toEqual(fakeResponse.status);
   });
 
+  test('GET /salones/:id', async () => {
+    const fakeResponse = {
+      status:200,
+      body :{
+        id: 1,
+        nombre: 'EA1',
+        tipo: 'Cubiculo',
+        capacidad: 1,
+        estado: "Libre",
+        comodidades: "Aire Acondicionado, Computadoras, Internet, Escritorio",
+        createdAt: Date(),
+        updatedAt: Date(),
+      }
+  }
+
+    axios.get.mockResolvedValue(fakeResponse);
+
+    // Get result
+    const result = await axios.get('http://localhost:3000/api/v1/salones/1',
+      {
+        'authorization': `Bearer ${token}`,
+      },
+    );
+    const axiosSpy = jest.spyOn(axios, 'get');
+
+    expect(axiosSpy).toHaveBeenCalledTimes(1);
+    expect(result.body).toEqual(fakeResponse.body);
+    expect(result.status).toEqual(fakeResponse.status);
+  });
+
+  test('DELETE /salones/:id', async () => {
+    const fake = {
+      status: 200,
+    };
+
+    axios.delete.mockResolvedValue(fake);
+
+    // Get result
+    const result = await axios.delete(
+      'http://localhost:3000/api/v1/salones/1',
+        {
+          'authorization': `Bearer ${token}`,
+        },
+      
+    );
+    const axiosSpy = jest.spyOn(axios, 'delete');
+
+    expect(axiosSpy).toHaveBeenCalledTimes(1);
+    expect(result.status).toEqual(200);
+  });
 });

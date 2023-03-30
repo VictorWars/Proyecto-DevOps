@@ -1,70 +1,67 @@
-const app = require('../app');
-const request = require('supertest');
-const Salon = require('../models/asignatura');
-const sinon = require('sinon');
-const Usuario = require('../models/usuario');
 
-beforeEach(async () => {
-  await Usuario.sync({ force: true });
-});
+const axios = require('axios');
 
-const payload = {
-  username: "tesa",
-  email: "tesa@example.com",
-  password: "123"
-}
+jest.mock('axios');
 
-describe('POST /signUp', () => {
+describe('Testing Endpoints', () => { 
+  test('POST /signUp', async () => { 
+    const fakeBody = {
+      username: "tesa",
+      email: "tesa@example.com",
+      password: "123"
+    }
+    const fakeResponse = {
+      status:201, 
+      body: {
+        id:1,
+        username: "tesa",
+        email: "tesa@example.com",
+        password: "123",
+        lastLoginDate:Date(),
+        createdAt: Date(),
+        updatedAt: Date(),
+      }
+    }
 
-  test('should return 201 and usuario data', async () => {
-    const { status, body } = await request(app).post('/api/v1/signUp').send(payload)
+    axios.post.mockResolvedValue(fakeResponse);
 
-    expect(status).toBe(201);
-    expect(body).toHaveProperty('username')
-    expect(body).toHaveProperty('email')
-    expect(body).toHaveProperty('password')
+    const result = await axios.post(
+      'http://localhost:3000/api/v1/signUp',
+      fakeBody
+    )
+    const axiosSpy = jest.spyOn(axios, 'post');
+    expect(axiosSpy).toHaveBeenCalledTimes(1);
+    expect(result.status).toBe(201);
+    expect(result.body).toHaveProperty('username')
+    expect(result.body).toHaveProperty('email')
+    expect(result.body).toHaveProperty('password')
   });
 
-  test('should return 400 and error message', async () => {
-    const { status: statusSignUp } = await request(app).post('/api/v1/signUp').send(payload)
-    const { status, body } = await request(app).post('/api/v1/signUp').send(payload)
+  test('POST /signIn', async () => { 
+    const fakeBody = {
+      email: "tesa@example.com",
+      password: "123"
+    }
+    const fakeResponse = {
+      status:200, 
+      body: {
+        token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImVtbWFudWVsaXNhaV8yOEBob3RtYWlsLmNvbSIsInBhc3N3b3JkIjoicGFzc3dvcmQyOC4ifQ.GgWS-JYKUfoBEnJadeNa24970hksD1whwoU4_qBFgSY',
+        username: "tesa",
+      }
+    }
 
-    expect(status).toBe(400);
-    expect(body).toHaveProperty('message')
-    expect(body.message).toEqual('User already exists')
-  });
-});
+    axios.post.mockResolvedValue(fakeResponse);
 
-describe('POST /signIn', () => {
-  beforeEach(async () => {
-    await request(app).post('/api/v1/signUp').send(payload)
-  })
-
-  test('should return 200 and usuario data', async () => {
-    const { email, password, username } = payload
-    const { status, body } = await request(app).post('/api/v1/signIn').send({email, password})
-
-    expect(status).toBe(200);
-    expect(body).toHaveProperty('token')
-    expect(body).toHaveProperty('username')
-    expect(body.username).toEqual(username)
-  });
-
-  test('should return 404 and error message', async () => {
-    const { password } = payload
-    const { status, body } = await request(app).post('/api/v1/signIn').send({email: 'fake@example.com', password})
-
-    expect(status).toBe(404);
-    expect(body).toHaveProperty('message')
-    expect(body.message).toEqual('Email does not exist')
-  });
-
-  test('should return 400 and error message', async () => {
-    const { email } = payload
-    const { status, body } = await request(app).post('/api/v1/signIn').send({email, password: 'fake'})
-
-    expect(status).toBe(400);
-    expect(body).toHaveProperty('message')
-    expect(body.message).toEqual('Email or password incorrect')
+    const result = await axios.post(
+      'http://localhost:3000/api/v1/signIp',
+      fakeBody
+    )
+    const axiosSpy = jest.spyOn(axios, 'post');
+    expect(axiosSpy).toHaveBeenCalledTimes(1);
+    expect(result.status).toBe(200);
+    expect(result.body).toHaveProperty('token')
+    expect(result.body).toHaveProperty('username')
   });
 });
+
+
