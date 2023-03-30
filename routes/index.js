@@ -11,6 +11,7 @@ const salonesRoutes = require('./salonesRoutes');
 const profesorRoutes =require('./profesorRoutes');
 const asignaturasRoutes = require('./asignaturasRoutes');
 const usuarioRoutes = require('./usuarioRoutes');
+const alumnoRoutes =require('./alumnoRoutes');
 
 
 /**
@@ -19,7 +20,7 @@ const usuarioRoutes = require('./usuarioRoutes');
 router.use("/", salonesRoutes);
 router.use("/", asignaturasRoutes)
 router.use("/",usuarioRoutes);
-
 router.use('/', profesorRoutes);
+router.use('/', alumnoRoutes);
 
 module.exports = router;
