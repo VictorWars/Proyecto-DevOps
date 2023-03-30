@@ -9,11 +9,20 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
+      nombre: {
+        type: Sequelize.STRING
+      },
+      tipo: {
+        type: Sequelize.STRING
+      },
       capacidad: {
         type: Sequelize.INTEGER
       },
       estado: {
         type: Sequelize.STRING
+      },
+      comodidades: {
+        type: Sequelize.TEXT
       },
       createdAt: {
         allowNull: false,
