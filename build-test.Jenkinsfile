@@ -16,7 +16,7 @@ pipeline {
     
     post {
         success {
-            load 'deploy.Jenkinsfile'
+            sh 'deploy.Jenkinsfile'
         }
     }
 }

@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     stages {
-        stage('Deploy') {
+        stage('deploy') {
             steps {
                 sh 'docker build -t api-devops-${GIT_BRANCH}-1.0.0:${BUILD_NUMBER} .'
                 sh ''' 
