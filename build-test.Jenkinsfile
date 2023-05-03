@@ -22,7 +22,7 @@ pipeline {
             echo 'El pipeline se ejecutó correctamente'
             try {
                 echo 'Ejecutando el segundo Jenkinsfile...'
-                build job: 'deploy.Jenkinsfile', parameters: [[$class: 'StringParameterValue', name: 'Jenkinsfile', value: 'deploy.Jenkinsfile']]
+                build job: 'Nombre-del-proyecto-en-Jenkins-que-contiene-el-segundo-Jenkinsfile', parameters: [[$class: 'StringParameterValue', name: 'Jenkinsfile', value: 'deploy.Jenkinsfile']]
             } catch (Exception e) {
                 echo 'Ocurrió un error en el primer Jenkinsfile. El segundo Jenkinsfile no se ejecutará.'
             }
