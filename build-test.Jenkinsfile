@@ -16,10 +16,7 @@ pipeline {
     
     post {
         success {
-            build job: 'deploy.Jenkinsfile', parameters: [
-                string(name: 'GIT_BRANCH', value: "${env.GIT_BRANCH}"),
-                string(name: 'BUILD_NUMBER', value: "${env.BUILD_NUMBER}")
-            ]
+            load 'deploy.Jenkinsfile'
         }
     }
 }
