@@ -12,11 +12,10 @@ pipeline {
                 sh 'npm run test' 
             }
         }
-    }
-    
-    post {
-        success {
-            sh 'deploy.Jenkinsfile'
+        stage('Deploy') {
+            steps {
+                sh 'deploy.Jenkinsfile'
+            }
         }
     }
 }
