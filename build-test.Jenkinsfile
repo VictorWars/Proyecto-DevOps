@@ -14,7 +14,7 @@ pipeline {
         }
         stage('Call Next Jenkinsfile') {
             steps {
-                build job: deploy.Jenkinsfile, propagate: false
+                build job: deploy.Jenkinsfile, propagate: true
             }
         }
     }
