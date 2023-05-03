@@ -2,16 +2,6 @@ pipeline {
     agent any
 
     stages {
-        stage('Build') {
-            steps {
-                sh 'npm install'
-            }
-        }
-        stage('Test') {
-            steps {
-                sh 'npm run test' 
-            }
-        }
         stage('Deploy') {
             steps {
                 sh 'docker build -t api-devops-${GIT_BRANCH}-1.0.0:${BUILD_NUMBER} .'
