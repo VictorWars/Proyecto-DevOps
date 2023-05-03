@@ -12,15 +12,22 @@ pipeline {
                 sh 'npm run test' 
             }
         }
-        stage('Call Next Jenkinsfile') {
-            steps {
-                build job: deploy.Jenkinsfile, propagate: true
+    }
+
+    post {
+        always {
+            echo 'Ejecución finalizada'
+        }
+        success {
+            echo 'El pipeline se ejecutó correctamente'
+            try {
+                build job: 'mi-proyecto', parameters: [[$class: 'StringParameterValue', name: 'Jenkinsfile', value: 'deploy.Jenkinsfile']]
+            } catch (Exception e) {
+                echo 'Ocurrió un error en el primer Jenkinsfile. El segundo Jenkinsfile no se ejecutará.'
             }
         }
-    }
-    post {
-        success {
-            echo 'La compilación y las pruebas han sido exitosas. Se ejecutará el siguiente Jenkinsfile.'
+        failure {
+            echo 'El pipeline falló. El segundo Jenkinsfile no se ejecutará.'
         }
     }
 }
