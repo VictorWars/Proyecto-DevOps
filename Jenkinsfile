@@ -14,7 +14,7 @@ pipeline {
         }
         stage('Triger Deploy pipeline'){
             steps {
-                build 'JenkinsfileDeploy'
+                build 'api-devops-deploy'
             }
         }
     }
