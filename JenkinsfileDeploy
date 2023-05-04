@@ -9,7 +9,7 @@ pipeline {
         }
         stage('Stop older version containers'){
             steps {
-                sh ''' 
+               sh ''' 
                 containers=$(docker ps | grep api-devops* | awk '{print $1}')
                 if [ ! -z $containers ];
                 then
