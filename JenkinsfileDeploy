@@ -1,0 +1,27 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Create image from Dockerfile') {
+            steps {
+                sh 'docker build -t api-devops-${GIT_BRANCH}-1.0.0:${BUILD_NUMBER} .'
+            }
+        }
+        stage('Stop older version containers'){
+            steps {
+                sh ''' 
+                containers=$(docker ps | grep api-devops* | awk '{print $1}')
+                if [ ! -z $containers ];
+                then
+	                docker container stop $containers
+                fi
+                ''' 
+            }
+        }
+        stage('Run container'){
+            steps{
+                sh 'docker run -d -p 3000:3000 api-devops-${GIT_BRANCH}-1.0.0:${BUILD_NUMBER}'
+            }
+        }
+    }
+}
