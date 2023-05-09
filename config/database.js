@@ -1,4 +1,10 @@
+const { logger } = require('../util/logger');
+
 require('dotenv').config();
+
+const logQueries = (query) => {
+  logger.debug(`DATABASE [${query}]`);
+};
 
 module.exports = {
   development: {
@@ -7,7 +13,8 @@ module.exports = {
     username: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
     port: process.env.DB_PORT,
-    database: `${process.env.DB_NAME}_development`
+    database: `${process.env.DB_NAME}_development`,
+    logging: logQueries,
   },
   test: {
     dialect: 'mysql',
@@ -15,14 +22,16 @@ module.exports = {
     username: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
     port: process.env.DB_PORT,
-    database: `${process.env.DB_NAME}_test`
+    database: `${process.env.DB_NAME}_test`,
+    logging: logQueries,
   },
-  production:{
-    dialect: "mysql",
+  production: {
+    dialect: 'mysql',
     host: process.env.DB_HOST,
     username: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
     port: process.env.DB_PORT,
-    database: process.env.DB_NAME
-  }
+    database: process.env.DB_NAME,
+    logging: logQueries,
+  },
 };
