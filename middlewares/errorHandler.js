@@ -9,8 +9,8 @@ const { logger } = require('../util/logger');
  * @returns res - HTTP Response
  */
 const errorHandler = (err, req, res, next) => {
-  logger.error('Che mierda');
-  res.status(500).json(err);
+  logger.error(`server error: ${JSON.stringify(err)}`);
+  res.status(500).json({ error: err });
   next();
 };
 
