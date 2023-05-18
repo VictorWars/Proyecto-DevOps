@@ -4,6 +4,7 @@ pipeline {
     stages {
         stage('Create image from Dockerfile') {
             steps {
+                sh 'docker network create --driver bridge devops-net || true'
                 sh 'docker build -t api-devops-${GIT_BRANCH}-1.0.0:${BUILD_NUMBER} .'
             }
         }
@@ -20,7 +21,7 @@ pipeline {
         }
         stage('Run container'){
             steps{
-                sh 'docker run -d -p 3000:3000 api-devops-${GIT_BRANCH}-1.0.0:${BUILD_NUMBER}'
+                sh 'docker run -d -p 3000:3000 --network devops-net api-devops-${GIT_BRANCH}-1.0.0:${BUILD_NUMBER}'
             }
         }
     }
