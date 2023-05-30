@@ -18,6 +18,8 @@ pipeline {
             steps{
                 sh 'docker run --name kibana --net devops-net --ip 172.19.0.3 -p 5601:5601 -e xpack.security.enabled=false -e discovery.type=single-node -d kibana:8.7.0 || true'
                 sh 'docker run --name elastic --net devops-net --ip 172.19.0.2 -p 9200:9200 -e discovery.type=single-node -e ES_JAVA_OPTS="-Xms1g -Xmx1g" -e xpack.security.enabled=false -d elasticsearch:8.7.0 || true'
+                sh 'docker start elastic'
+                sh 'docker start kibana'
             }
         }
         stage('Stop older version containers'){
